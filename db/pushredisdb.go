@@ -64,9 +64,11 @@ func newPushRedisDB(c *DatabaseConfig) (*PushRedisDB, error) {
 		c.Name = "0"
 	}
 
-	var option = redis.Options{}
-	option.Addr = fmt.Sprintf("%s:%d", c.Host, c.Port)
-	option.Password = c.Password
+	var option = redis.FailoverOptions{}
+	option.SentinelAddrs = append (option.SentinelAddrs,fmt.Sprintf("%s:%d", c.Host, c.Port))
+	//option.Addr=fmt.Sprintf("%s:%d", c.Host, c.Port)
+	//option.Password = c.Password
+	option.MasterName = c.Master
 
 	var err error
 	option.DB, err = strconv.ParseInt(c.Name, 10, 64)
@@ -75,7 +77,7 @@ func newPushRedisDB(c *DatabaseConfig) (*PushRedisDB, error) {
 		option.DB = 0
 	}
 
-	client = *redis.NewClient(&option)
+	client = *redis.NewFailoverClient(&option)
 
 	ret := new(PushRedisDB)
 	ret.client = &client
