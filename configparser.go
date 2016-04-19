@@ -100,6 +100,10 @@ func LoadDatabaseConfig(cf *conf.ConfigFile) (*db.DatabaseConfig, error) {
 	if err != nil || c.Host == "" {
 		c.Host = "localhost"
 	}
+	c.Master, err = cf.GetString("Database", "master")
+	if err != nil || c.Host == "" {
+		c.Master = "mymaster"
+	}
 	c.Password, err = cf.GetString("Database", "password")
 	if err != nil {
 		c.Password = ""

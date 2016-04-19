@@ -27,6 +27,7 @@ type DatabaseConfig struct {
 	Engine    string
 	Name      string
 	User      string
+        Master	  string
 	Password  string
 	Host      string
 	Port      int
@@ -63,8 +64,8 @@ func LoadDatabaseConfig(filename string) (conf *DatabaseConfig, err os.Error) {
 */
 
 func (c *DatabaseConfig) String() string {
-	ret := fmt.Sprintf("engine: %v;\nname: %v;\nuser: %v;\npassowrd: %v;\nhost: %v\nport: %d\n",
-		c.Engine, c.Name, c.User, c.Password, c.Host, c.Port)
+	ret := fmt.Sprintf("engine: %v;\nname: %v;\nuser: %v;\nmaster: %v;\npassowrd: %v;\nhost: %v\nport: %d\n",
+		c.Engine, c.Name, c.User, c.Master, c.Password, c.Host, c.Port)
 
 	return ret
 }
